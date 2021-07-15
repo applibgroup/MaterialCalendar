@@ -1,7 +1,7 @@
 # Material Design Calendar
 A Material design calendar inspired by the CalendarView of School Diary.
 <p>
-	<image src = "https://github.com/yashwanth-mamilla/assessment/blob/yashwanth/HarmonyOS/Libraries/MaterialCalendar/Material%20Calendar.png" width = 320 height = 512)/>
+	<image src = "MaterialCalendar.png" width = 320 height = 512)/>
 </p>
 
 ## Integration
