@@ -1,0 +1,47 @@
+
+f	java:S117@"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÀâÆ
+f	java:S117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÍÂƒî
+f	java:S117P"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(î—Ñº
+f	java:S117X"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜”†è
+k	java:S117`"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿„¥ôıÿÿÿÿ
+g	java:S117­"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(È°ì
+x
+java:S3008"]Rename this field "_indicatorDrawable" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ä´Ëúÿÿÿÿ
+s
+java:S3008"]Rename this field "_selectionDrawable" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬­¼¶
+w
+java:S3008"aRename this field "_indicatorMarginBottom" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ìŠş
+t
+java:S3008"YRename this field "_indicatorSize" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(úÂ İùÿÿÿÿ
+u
+java:S3008 "ZRename this field "_measuredHeight" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°´µøşÿÿÿÿ
+s
+java:S3008!"XRename this field "_colorPrimary" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ò­¼êùÿÿÿÿ
+b	java:S100<"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ—…
+c	java:S100@"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÀâÆ
+h	java:S100D"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼ëáÉúÿÿÿÿ
+c	java:S100H"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÍÂƒî
+h	java:S100L"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ£½Øùÿÿÿÿ
+c	java:S100P"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(î—Ñº
+h	java:S100T"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªàÒ¸ùÿÿÿÿ
+c	java:S100X"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜”†è
+c	java:S100\"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éåş
+h	java:S100`"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿„¥ôıÿÿÿÿ
+Q
+java:S1161¿":Add the "@Override" annotation above this method signature(Û³È®
+V
+java:S1161Ä":Add the "@Override" annotation above this method signature(Ú±Ô×øÿÿÿÿ
+Y
+java:S1117è"=Rename "indicator" which hides the field declared at line 36.(„ÍÁ‡ùÿÿÿÿ
+M
+java:S2696õ"6Make the enclosing method "static" or remove this set.(šñÑ§
+R
+java:S2696ü"6Make the enclosing method "static" or remove this set.(Ş”ÿ†ıÿÿÿÿ
+M
+java:S2696ƒ"6Make the enclosing method "static" or remove this set.(á­µ
+R
+java:S2696Š"6Make the enclosing method "static" or remove this set.(Ò£ÉÓşÿÿÿÿ
+R
+java:S2696‘"6Make the enclosing method "static" or remove this set.(ËûŠşÿÿÿÿ
+L
+java:S1068!"1Remove this unused "_colorPrimary" private field.(Ò­¼êùÿÿÿÿ

@@ -1,0 +1,12 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(“ôžÓ
+k
+java:S1206]"PThis class overrides "equals()" and should therefore also override "hashCode()".(Ý¢êÍýÿÿÿÿ
+i	java:S116"TRename this field "_calendar" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ÓÂƒ
+j	java:S116"PRename this field "_date" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ø™ööüÿÿÿÿ
+K
+java:S1133"5Do not forget to remove this deprecated code someday.(»æÌ×
+>
+java:S1123"(Add the missing @deprecated Javadoc tag.(»æÌ×
+N
+java:S1874 "3Remove this use of "CalendarDay"; it is deprecated.(¥³½Àýÿÿÿÿ

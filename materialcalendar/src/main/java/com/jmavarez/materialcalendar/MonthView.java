@@ -1,42 +1,65 @@
 package com.jmavarez.materialcalendar;
 
-import android.content.Context;
-import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.jmavarez.materialcalendar.Interface.CalendarCallback;
 import com.jmavarez.materialcalendar.Interface.OnDateChangedListener;
 import com.jmavarez.materialcalendar.Util.CalendarDay;
 import com.jmavarez.materialcalendar.Util.CalendarUtils;
+import ohos.agp.components.Component;
+import ohos.agp.components.ComponentContainer;
+import ohos.agp.components.StackLayout;
+import ohos.agp.components.Text;
+import ohos.agp.text.Font;
+import ohos.agp.utils.Color;
+import ohos.agp.utils.LayoutAlignment;
+import ohos.agp.utils.TextAlignment;
+import ohos.agp.window.service.Display;
+import ohos.agp.window.service.DisplayManager;
+import ohos.app.Context;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 
-public class MonthView extends ViewGroup {
+import static com.jmavarez.materialcalendar.Util.CanvasHelper.dpToPx;
+
+public class MonthView extends ComponentContainer implements Component.EstimateSizeListener,ComponentContainer.ArrangeListener {
     private static final int DEFAULT_DAYS_IN_WEEK = 7;
-    final OnClickListener dayClickListener;
-    final DisplayMetrics metrics;
+
+    final ClickedListener dayClickListener ;
+    final Display display;
     private final boolean starsOnSunday;
     private CalendarCallback callback;
     private ArrayList<DayView> dayViews;
     private OnDateChangedListener mListener;
     private CalendarDay calendarDay;
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public int getPagerPosition() {
+        return pagerPosition;
+    }
+
+    public void setPagerPosition(int pagerPosition) {
+        this.pagerPosition = pagerPosition;
+    }
+
     private int offset;
     private int pagerPosition;
 
-    public MonthView(Context context, CalendarDay calendarDay, boolean startsOnSunday, @NonNull CalendarCallback callback, OnDateChangedListener listener, int pagerPosition) {
+    public MonthView(Context context, CalendarDay calendarDay, boolean startsOnSunday, @NotNull CalendarCallback callback, OnDateChangedListener listener, int pagerPosition) {
         super(context);
-        this.metrics = getResources().getDisplayMetrics();
-        this.dayClickListener = new ClickListener();
+        setArrangeListener(this::onArrange);
+        setEstimateSizeListener(this::onEstimateSize);
         this.calendarDay = calendarDay;
+        this.display=(DisplayManager.getInstance().getDefaultDisplay(context)).get();
+        this.dayClickListener = new ClickListeners();
         this.mListener = listener;
         this.callback = callback;
         this.starsOnSunday = startsOnSunday;
@@ -54,15 +77,16 @@ public class MonthView extends ViewGroup {
 
     private void init() {
         this.dayViews = new ArrayList();
+
         this.offset = CalendarUtils.getDayOfWeek(this.calendarDay.getCalendar(), this.starsOnSunday) - 1;
-        setLayoutParams(new android.view.ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        setLayoutConfig(new LayoutConfig(LayoutConfig.MATCH_PARENT,LayoutConfig.MATCH_PARENT));
         addHeaders();
         int lastDay = CalendarUtils.getEndOfMonth(this.calendarDay.getCalendar());
         for (int i = 1; i <= lastDay; i++) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(this.calendarDay.getYear(), this.calendarDay.getMonth(), i);
             CalendarDay cur = CalendarDay.from(calendar);
-            addDayView(cur);
+            addDayComponent(cur);
         }
         refreshEvents();
     }
@@ -91,84 +115,37 @@ public class MonthView extends ViewGroup {
         }
     }
 
-    private void addHeaders() {
+
+ void addHeaders() {
         int i = 1;
         while (i <= DEFAULT_DAYS_IN_WEEK) {
             int actual = this.starsOnSunday ? i == 1 ? DEFAULT_DAYS_IN_WEEK : i - 1 : i;
-            TextView textView = new TextView(getContext());
+            Text text = new Text(getContext());
 
             try {
-                textView.setText(new CalendarUtils.Day(Integer.valueOf(actual)).getShortName(getContext()));
+                text.setText(new CalendarUtils.Day(Integer.valueOf(actual)).getShortName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            textView.setGravity(Gravity.CENTER);
-            textView.setTypeface(null, Typeface.BOLD);
-            textView.setTextColor(ContextCompat.getColor(this.getContext(), R.color.white));
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12.0f);
-            textView.setAllCaps(true);
-            addView(textView);
+            Font font_bold=Font.DEFAULT_BOLD;
+            StackLayout.LayoutConfig config=new StackLayout.LayoutConfig();
+            config.alignment= LayoutAlignment.CENTER;
+            text.setTextAlignment(TextAlignment.CENTER);
+            text.setLayoutConfig(config);
+            text.setFont(font_bold);
+            text.setTextColor(Color.WHITE);
+            text.setTextSize( dpToPx(getContext(),12));
+            addComponent(text);
             i++;
         }
     }
 
-    private void addDayView(CalendarDay day) {
+    private void addDayComponent(CalendarDay day) {
         DayView dayView = new DayView(getContext(), day);
-        dayView.setOnClickListener(this.dayClickListener);
+        dayView.setClickedListener(this.dayClickListener);
         this.dayViews.add(dayView);
-        addView(dayView);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int specWidthSize = MeasureSpec.getSize(widthMeasureSpec);
-
-        if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.UNSPECIFIED) {
-            throw new IllegalStateException("CalendarPagerView should never be left to decide it's size");
-        }
-
-        int measureTileWidth = (specWidthSize - (((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8.0f, this.metrics)) * 2)) / DEFAULT_DAYS_IN_WEEK;
-        int measureTileHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30.0f, getResources().getDisplayMetrics());
-
-        setMeasuredDimension(specWidthSize, (measureTileHeight * DEFAULT_DAYS_IN_WEEK) + ((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20.0f, this.metrics)));
-
-        int count = getChildCount();
-
-        for (int i = 0; i < count; i++) {
-            getChildAt(i).measure(MeasureSpec.makeMeasureSpec(measureTileWidth, MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(measureTileHeight, MeasureSpec.EXACTLY));
-        }
-    }
-
-    @Override
-    protected void onLayout(boolean b, int left, int top, int right, int bottom) {
-        int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8.0f, this.metrics);
-        int marginLeft = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8.0f, this.metrics);
-        int count = getChildCount();
-        int offset = this.offset;
-        int headerOffset = 0;
-        int childTop = marginTop;
-
-        for (int i = 0; i < count; i++) {
-            View child = getChildAt(i);
-            int width = child.getMeasuredWidth();
-            int height = child.getMeasuredHeight();
-            int childLeft;
-            if (child instanceof TextView) {
-                childLeft = (width * headerOffset) + marginLeft;
-                child.layout(childLeft, 0, childLeft + width, height);
-                headerOffset++;
-            } else if (child instanceof DayView) {
-                childLeft = (width * offset) + marginLeft;
-                child.layout(childLeft, height + childTop, childLeft + width, (height * 2) + childTop);
-                offset++;
-                if (offset >= DEFAULT_DAYS_IN_WEEK) {
-                    offset = 0;
-                    childTop += height;
-                }
-            }
-        }
+        addComponent(dayView);
     }
 
     public void refreshSelection(int day, int month, int year) {
@@ -186,7 +163,7 @@ public class MonthView extends ViewGroup {
 
             DayView v = (DayView) it.next();
 
-            if (select && v.getDay().getDay() == day) {
+            if (select && v.getDay().getDay() == day        ) {
                 z = true;
             } else {
                 z = false;
@@ -196,6 +173,7 @@ public class MonthView extends ViewGroup {
         }
     }
 
+
     public void hideIndicators() {
         Iterator it = this.dayViews.iterator();
 
@@ -204,16 +182,75 @@ public class MonthView extends ViewGroup {
         }
     }
 
-    class ClickListener implements OnClickListener {
-        ClickListener() {
+    @Override
+    public boolean onEstimateSize(int widthEstimatedSize, int heightEstimatedSize) {
+        int specWidthSize = EstimateSpec.getSize(widthEstimatedSize);
+        if(EstimateSpec.getMode(widthEstimatedSize)==EstimateSpec.UNCONSTRAINT){
+            throw new IllegalStateException("CalendarPagerView should never be left to decide it's size");
+        }
+
+
+        int measureTileWidth = (specWidthSize - (dpToPx(getContext(),8)*2)) / DEFAULT_DAYS_IN_WEEK;
+        int measureTileHeight = dpToPx(getContext(),30);
+        setEstimatedSize(specWidthSize,(measureTileHeight*DEFAULT_DAYS_IN_WEEK)+dpToPx(getContext(),20))    ;
+        int count = getChildCount();
+
+        for (int i=0;i<count;i++)
+        {
+            getComponentAt(i).estimateSize(EstimateSpec.getSizeWithMode(measureTileWidth,EstimateSpec.PRECISE),
+                    EstimateSpec.getSizeWithMode(measureTileHeight,EstimateSpec.PRECISE));
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onArrange(int left, int top, int right, int bottom) {
+        int marginTop=dpToPx(getContext(),8);
+        int marginLeft=dpToPx(getContext(),8);
+        int count = getChildCount();
+        int offset=this.offset;
+        int headOffset=0;
+        int childTop=marginTop;
+        boolean Arranged=false;
+        for(int i=0;i<count;i++ )
+        {
+            Component child=this.getComponentAt(i);
+            int width=child.getEstimatedWidth();
+            int height=child.getEstimatedHeight();
+            int childleft;
+            if(child instanceof Text){
+                childleft=(width*headOffset)+marginLeft;
+                child.arrange(childleft,childTop,width,height);
+                headOffset++;
+                Arranged=true;
+            }
+            else if(child instanceof DayView){
+                childleft=(width*offset)+marginLeft;
+                child.arrange(childleft,height+childTop,width,(height));
+                offset++;
+                if(offset >= DEFAULT_DAYS_IN_WEEK){
+                    offset=0;
+                    childTop += height;
+                }
+                Arranged=true;
+            }
+        }
+        return Arranged;
+    }
+
+    class ClickListeners implements ClickedListener {
+
+        public ClickListeners() {
+
         }
 
         @Override
-        public void onClick(View view) {
-            if (view instanceof DayView) {
-                CalendarDay day = ((DayView) view).getDay();
+        public void onClick(Component component) {
+            if (component instanceof DayView) {
+                CalendarDay day = ((DayView) component).getDay();
                 if (day != null) {
-                    view.setSelected(true);
+                    component.setSelected(true);
                     if (MonthView.this.mListener != null) {
                         MonthView.this.mListener.onDateChanged(day.getDate());
                     }
@@ -222,3 +259,4 @@ public class MonthView extends ViewGroup {
         }
     }
 }
+

@@ -1,10 +1,9 @@
 package com.jmavarez.materialcalendar.Util;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -28,7 +27,7 @@ public final class CalendarDay implements Serializable {
         this.year = year;
     }
 
-    @NonNull
+    @NotNull
     public static CalendarDay from(int day, int month, int year) {
         return new CalendarDay(day, month, year);
     }
@@ -63,7 +62,7 @@ public final class CalendarDay implements Serializable {
         return this.year;
     }
 
-    @NonNull
+    @NotNull
     public Date getDate() {
         if (_date == null) {
             _date = getCalendar().getTime();
@@ -71,7 +70,7 @@ public final class CalendarDay implements Serializable {
         return _date;
     }
 
-    @NonNull
+    @NotNull
     public Calendar getCalendar() {
         if (_calendar == null) {
             _calendar = CalendarUtils.getInstance();
@@ -80,7 +79,7 @@ public final class CalendarDay implements Serializable {
         return _calendar;
     }
 
-    public void copyTo(@NonNull Calendar calendar) {
+    public void copyTo(@NotNull Calendar calendar) {
         calendar.clear();
         calendar.set(year, month, day);
     }
