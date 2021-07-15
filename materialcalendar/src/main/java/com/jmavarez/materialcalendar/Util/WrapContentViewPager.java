@@ -1,33 +1,38 @@
 package com.jmavarez.materialcalendar.Util;
 
-import android.content.Context;
-import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
-import android.view.View;
+import ohos.agp.components.*;
+import ohos.app.Context;
 
-public class WrapContentViewPager extends ViewPager {
+public class WrapContentViewPager extends PageSlider implements Component.EstimateSizeListener {
+
     public WrapContentViewPager(Context context) {
-        super(context);
+        super(context);setEstimateSizeListener(this);
     }
 
-    public WrapContentViewPager(Context context, AttributeSet attrs) {
+    public WrapContentViewPager(Context context, AttrSet attrs) {
         super(context, attrs);
+        setEstimateSizeListener(this);
+    }
+
+    public WrapContentViewPager(Context context, AttrSet attrSet, String styleName) {
+        super(context, attrSet, styleName);setEstimateSizeListener(this);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    public boolean onEstimateSize(int widthEstimatedSize, int heightEstimatedSize) {
         int count = getChildCount();
         int height = 0;
 
         for (int i = 0; i < count; i++) {
-            View child = getChildAt(i);
-            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-            int h = child.getMeasuredHeight();
+            Component child=getComponentAt(i);
+            child.estimateSize(widthEstimatedSize,EstimateSpec.getSizeWithMode(0,EstimateSpec.UNCONSTRAINT));
+            int h = child.getEstimatedHeight();
             if (h > height) {
                 height = h;
             }
         }
-
-        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+        setEstimatedSize(widthEstimatedSize, EstimateSpec.getSizeWithMode(height,EstimateSpec.PRECISE));
+        return true;
     }
 }
+

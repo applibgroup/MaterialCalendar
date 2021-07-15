@@ -1,37 +1,71 @@
 package com.jmavarez.materialcalendar;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.SparseArrayCompat;
-import android.support.v4.view.PagerAdapter;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.jmavarez.materialcalendar.Interface.CalendarCallback;
 import com.jmavarez.materialcalendar.Interface.DayViewDecorator;
 import com.jmavarez.materialcalendar.Interface.OnDateChangedListener;
 import com.jmavarez.materialcalendar.Interface.OnMonthChangedListener;
 import com.jmavarez.materialcalendar.Util.CalendarDay;
+import com.jmavarez.materialcalendar.Util.LogUtil;
 import com.jmavarez.materialcalendar.Util.WrapContentViewPager;
+import ohos.agp.colors.RgbColor;
+import ohos.agp.components.*;
+import ohos.agp.components.element.ShapeElement;
+import ohos.app.Context;
+import ohos.hiviewdfx.HiLog;
+import ohos.hiviewdfx.HiLogLabel;
+import ohos.utils.PlainArray;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-public class CalendarView extends WrapContentViewPager implements OnDateChangedListener, CalendarCallback {
+public class CalendarView extends WrapContentViewPager implements OnDateChangedListener,OnMonthChangedListener, CalendarCallback, PageSlider.PageChangedListener {
     private static final int PAGER_ITEMS = 60;
     private CalendarAdapter adapter;
     private OnDateChangedListener onDateChangedListener;
     private boolean indicatorsVisible;
     private OnMonthChangedListener onMonthChangedListener;
-    private Date selection;
+    public Date selection;
     private ArrayList<CalendarDay> eventDates;
+
+    public CalendarAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(CalendarAdapter adapter) {
+        this.adapter = adapter;
+    }
+
+    public OnDateChangedListener getOnDateChangedListener() {
+        return onDateChangedListener;
+    }
+
+    public OnMonthChangedListener getOnMonthChangedListener() {
+        return onMonthChangedListener;
+    }
+
+    public int getCalendarColor() {
+        return calendarColor;
+    }
+
+    public void setCalendarColor(int calendarColor) {
+        this.calendarColor = calendarColor;
+    }
+
+    public boolean isStartsOnSunday() {
+        return startsOnSunday;
+    }
+
+    public void setStartsOnSunday(boolean startsOnSunday) {
+        this.startsOnSunday = startsOnSunday;
+    }
+
     private int calendarColor;
     private boolean startsOnSunday;
+    private static final String CALENDARVIEW_MC_COLOR = "mc_color";
+    private static final String CALENDARVIEW_MC_STARTSONSATURDAY = "CalendarView_mc_startsOnSunday";
+    static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0xD000F00, "CALENDAR_VIEW");
 
     public CalendarView(Context context) {
         super(context);
@@ -39,37 +73,40 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
         init();
     }
 
-    public CalendarView(Context context, AttributeSet attrs) {
+    public CalendarView(Context context, AttrSet attrs)  {
         super(context, attrs);
         this.startsOnSunday = false;
-
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CalendarView, 0, 0);
-
-        try {
-            calendarColor = a.getColor(R.styleable.CalendarView_mc_color, ContextCompat.getColor(context, R.color.colorPrimary));
-            startsOnSunday = a.getBoolean(R.styleable.CalendarView_mc_startsOnSunday, false);
-        } finally {
-            a.recycle();
-        }
-
+        calendarColor=attrs.getAttr(CALENDARVIEW_MC_COLOR).isPresent() ? attrs.getAttr(CALENDARVIEW_MC_COLOR).get().getColorValue().getValue() : 0x3F51B5;
+        startsOnSunday= attrs.getAttr(CALENDARVIEW_MC_STARTSONSATURDAY).isPresent() &&
+                    attrs.getAttr(CALENDARVIEW_MC_STARTSONSATURDAY).get().getBoolValue() ;
         init();
     }
 
     private void init() {
+
         eventDates = new ArrayList<>();
         this.selection = new Date();
         this.indicatorsVisible = true;
         this.adapter = new CalendarAdapter(this, this);
-        setOffscreenPageLimit(6);
-        setAdapter(this.adapter);
-        setCurrentItem(30, false);
-        addOnPageChangeListener(new PageChangeListener());
-        setBackgroundColor(calendarColor);
+        setProvider(this.adapter);
+        setCurrentPage((30),false);//
+        addPageChangedListener(this);
+        if(this.getBackgroundElement()==null)
+        {
+            ShapeElement element=new ShapeElement();
+            //if(calendarColor==0x3F51B5)
+            //element.setRgbColor(new RgbColor(63,81,181));
+            //else
+                element.setRgbColor(new RgbColor(RgbColor.fromArgbInt(calendarColor)));
+            setBackground(element);
+        }
+
     }
 
     public void reset() {
-        setCurrentItem(30, true);
+        setCurrentPage(30, true);
         onDateChanged(new Date());
+        CalendarView.this.onMonthChangedListener.onMonthChanged(CalendarDay.today().getDate());
     }
 
     public void setDate(Date date) {
@@ -108,8 +145,10 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
 
-        for (int i = 0; i < this.adapter.getViews().size(); i++) {
-            MonthView v = this.adapter.getViews().valueAt(i);
+        for (int i = 0; i < this.adapter.mComponents.size(); i++) {
+            MonthView v=null;
+
+            v = this.adapter.getmComponents().valueAt(i);
             if (v != null) {
                 v.refreshSelection(day, month, year);
             }
@@ -123,8 +162,10 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
                 refreshEvents();
                 return;
             }
-            for (int i = 0; i < this.adapter.getViews().size(); i++) {
-                MonthView v = this.adapter.getViews().valueAt(i);
+
+            for (int i = 0; i < this.adapter.mComponents.size(); i++) {
+                MonthView v=null;
+                v = this.adapter.getmComponents().valueAt(i);
                 if (v != null) {
                     v.hideIndicators();
                 }
@@ -133,8 +174,9 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
     }
 
     private void refreshEvents() {
-        for (int i = 0; i < this.adapter.getViews().size(); i++) {
-            MonthView view = this.adapter.getViews().valueAt(i);
+               for (int i = 0; i < this.adapter.mComponents.size(); i++) {
+            MonthView view=null;
+            view = this.adapter.getmComponents().valueAt(i);
             if (view != null) {
                 view.refreshEvents();
             }
@@ -165,14 +207,19 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
         this.onMonthChangedListener = listener;
     }
 
+
     // Needs work
     public void scrollToMonth(CalendarDay day) {
-        for (int i = 0; i < this.adapter.getViews().size(); i++) {
-            MonthView monthView = this.adapter.getViews().valueAt(i);
+        for (int i = 0; i < this.adapter.getmComponents().size(); i++) {
+            MonthView monthView = this.adapter.getmComponents().valueAt(i);
             if (monthView != null) {
                 if (day.equalsMonth(monthView.getCalendarDay())) {
                     int pos = 30 + (day.getMonth() - CalendarDay.from(this.selection).getMonth());
-                    setCurrentItem(pos);
+                    setCurrentPage(pos,true);
+                    if(CalendarView.this.onMonthChangedListener!=null)
+                    {
+                        CalendarView.this.onMonthChangedListener.onMonthChanged(day.getDate());
+                    }
                     onDateChanged(day.getDate());
                     return;
                 }
@@ -180,76 +227,94 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
         }
     }
 
-    class PageChangeListener extends SimpleOnPageChangeListener {
-        PageChangeListener() {
-        }
+    @Override
+    public void onPageSliding(int i, float v, int i1) {
 
-        public void onPageScrollStateChanged(int state) {
-            if (state == 0) {
-                CalendarView.this.adapter.onScroll();
-            }
-        }
     }
 
-    private class CalendarAdapter extends PagerAdapter {
+    @Override
+    public void onPageSlideStateChanged(int i) {
+        if (i == 0) {
+            CalendarView.this.adapter.onScroll();
+        }
+
+    }
+
+    @Override
+    public void onPageChosen(int i) {
+
+    }
+
+    @Override
+    public void onMonthChanged(Date date) {
+
+    }
+
+    public class CalendarAdapter extends PageSliderProvider {
+
         public Date mDateStart;
-        public SparseArrayCompat<MonthView> mViews;
+
+        public PlainArray<MonthView> mComponents;
         public ArrayList<DayViewDecorator> dayViewDecorators;
         private CalendarCallback mCallback;
         private OnDateChangedListener mListener;
         private int mPositionStart;
+        public final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0xD000F00, "on_scroll");
 
-        public CalendarAdapter(CalendarCallback callback, OnDateChangedListener listener) {
+        public CalendarAdapter(CalendarCallback callback,OnDateChangedListener listener) {
             this.mListener = listener;
             this.mCallback = callback;
             this.mDateStart = new Date();
-            this.mPositionStart = 30;
-            this.mViews = new SparseArrayCompat();
+            this.mPositionStart = 30 ;
+            this.mComponents = new PlainArray<>();
             this.dayViewDecorators = new ArrayList<>();
         }
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            Calendar c = Calendar.getInstance();
-            c.setTime(this.mDateStart);
-            c.add(Calendar.MONTH, position - this.mPositionStart);
-            c.set(Calendar.DAY_OF_MONTH, 1);
-            MonthView v = new MonthView(CalendarView.this.getContext(), CalendarDay.from(c), CalendarView.this.startsOnSunday, this.mCallback, this.mListener, getCurrentItem());
-            c.setTime(CalendarView.this.getDateSelected());
-            v.refreshSelection(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
-            this.mViews.put(position, v);
-            container.addView(v);
-            return v;
-        }
-
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            this.mViews.remove(position);
-            container.removeView((View) object);
-        }
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
         public int getCount() {
             return CalendarView.PAGER_ITEMS;
         }
 
-        public SparseArrayCompat<MonthView> getViews() {
-            return this.mViews;
+        @Override
+        public Object createPageInContainer(ComponentContainer componentContainer, int position) {
+            Calendar c=Calendar.getInstance();
+            c.setTime(this.mDateStart);
+            c.add(Calendar.MONTH, position - this.mPositionStart+1);
+            c.set(Calendar.DAY_OF_MONTH, 1);
+            MonthView v = new MonthView(CalendarView.this.getContext(), CalendarDay.from(c), CalendarView.this.startsOnSunday, this.mCallback, this.mListener, getCurrentPage());
+            c.setTime(CalendarView.this.getDateSelected());
+            v.refreshSelection(c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
+            this.mComponents.put(position, v);
+            componentContainer.addComponent(v);
+            return v;
         }
 
+        @Override
+        public void destroyPageFromContainer(ComponentContainer componentContainer, int position, Object object) {
+
+            this.mComponents.remove(position);
+            componentContainer.removeComponent((Component) object);
+        }
+
+        @Override
+        public boolean isPageMatchToObject(Component component, Object object) {
+            return component == object;
+        }
+
+        public PlainArray<MonthView> getmComponents() {
+            return this.mComponents;
+        }
         public void onScroll() {
             Calendar c = Calendar.getInstance();
             c.setTime(this.mDateStart);
-            c.add(Calendar.MONTH, CalendarView.this.getCurrentItem() - this.mPositionStart);
-            Log.d("onScroll", "" + CalendarView.this.getCurrentItem() + " " + this.mPositionStart);
+            c.add(Calendar.MONTH, CalendarView.this.getCurrentPage() - this.mPositionStart);
+            HiLog.debug(label, "" + CalendarView.this.getCurrentPage() + " " + this.mPositionStart);
             if (CalendarView.this.onMonthChangedListener != null) {
                 CalendarView.this.onMonthChangedListener.onMonthChanged(c.getTime());
             }
 
-            Log.d("onScroll", CalendarDay.from(c).toString() + " - " + (CalendarView.this.getCurrentItem() - this.mPositionStart) + " Month: " + (c.get(Calendar.MONTH) + 1));
+            HiLog.debug(label, CalendarDay.from(c).toString() + " - " + (CalendarView.this.getCurrentPage() - this.mPositionStart) + " Month: " + (c.get(Calendar.MONTH) + 1));
         }
     }
 }

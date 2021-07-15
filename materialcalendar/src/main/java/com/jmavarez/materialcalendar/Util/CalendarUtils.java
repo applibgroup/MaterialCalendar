@@ -1,10 +1,9 @@
 package com.jmavarez.materialcalendar.Util;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
+import ohos.global.resource.NotExistException;
+import org.jetbrains.annotations.NotNull;
 
-import com.jmavarez.materialcalendar.R;
-
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -70,7 +69,7 @@ public class CalendarUtils {
     public static class Day {
         private Integer mDay;
 
-        public Day(@NonNull Integer day) throws Exception {
+        public Day(@NotNull Integer day) throws Exception {
             this.mDay = null;
             if (day.intValue() < 1 || day.intValue() > 7) {
                 throw new Exception("Day must be between 1 and 7");
@@ -82,34 +81,32 @@ public class CalendarUtils {
             return this.mDay;
         }
 
-        public String getShortName(Context context) {
-            Integer res;
+        public String getShortName() throws IOException, NotExistException {
+            String res_string;
             switch (this.mDay.intValue()) {
                 case 1:
-                    res = Integer.valueOf(R.string.monday_name_short);
+                    res_string = "M";
                     break;
                 case 2:
-                    res = Integer.valueOf(R.string.tuesday_name_short);
+                case 4:
+                    res_string= "T";
                     break;
                 case 3:
-                    res = Integer.valueOf(R.string.wednesday_name_short);
-                    break;
-                case 4:
-                    res = Integer.valueOf(R.string.thursday_name_short);
+                    res_string = "W";
                     break;
                 case 5:
-                    res = Integer.valueOf(R.string.friday_name_short);
+                    res_string = "F";
                     break;
                 case 6:
-                    res = Integer.valueOf(R.string.saturday_name_short);
-                    break;
                 case 7:
-                    res = Integer.valueOf(R.string.sunday_name_short);
+                    res_string = "S";
                     break;
                 default:
                     return "getDay";
             }
-            return context.getResources().getString(res.intValue());
+            return res_string;
+
         }
     }
 }
+

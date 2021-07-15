@@ -1,34 +1,121 @@
 package com.jmavarez.materialcalendar;
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
 import com.jmavarez.materialcalendar.Util.CalendarDay;
+import ohos.agp.colors.RgbColor;
+import ohos.agp.components.AttrSet;
+import ohos.agp.components.Component;
+import ohos.agp.components.StackLayout;
+import ohos.agp.components.Text;
+import ohos.agp.components.element.Element;
+import ohos.agp.components.element.ShapeElement;
+import ohos.agp.text.Font;
+import ohos.agp.utils.Color;
+import ohos.agp.utils.LayoutAlignment;
+import ohos.agp.utils.TextAlignment;
+import ohos.agp.window.service.DisplayManager;
+import ohos.app.Context;
 
-public class DayView extends FrameLayout {
-    public static final float DEFAULT_HEIGHT = 30.0f;
-    private static final float DEFAULT_INDICATOR_MARGIN_BOTTOM = 2.0f;
-    private static final float DEFAULT_INDICATOR_SIZE = 4.0f;
-    private static final float DEFAULT_TEXT_SIZE = 12.0f;
-    private static Drawable _indicatorDrawable;
-    private static Drawable _selectionDrawable;
+import static com.jmavarez.materialcalendar.Util.CanvasHelper.dpToPx;
+import static com.jmavarez.materialcalendar.Util.CanvasHelper.pxToDp;
+
+public class DayView extends StackLayout {
+    public static final int DEFAULT_HEIGHT = 30;
+    private static final int DEFAULT_INDICATOR_MARGIN_BOTTOM = 2;
+    private static final int DEFAULT_INDICATOR_SIZE = 4;
+    private static final int DEFAULT_TEXT_SIZE = 12;
+
+    private static Element _indicatorDrawable;
+    private static Element _selectionDrawable;
+
     private static Integer _indicatorMarginBottom;
     private static Integer _indicatorSize;
     private static Integer _measuredHeight;
     private static Integer _colorPrimary;
+
+    private Context context;
+    private Component indicator;
+    private CalendarDay day;
+    private boolean indicatorVisible;
+    private boolean selected;
+
+    public Component getIndicator() {
+        return indicator;
+    }
+
+    public void setIndicator(Component indicator) {
+        this.indicator = indicator;
+    }
+
+    private DisplayManager metrics;
+    private Text tvDay;
+
+    public Text getTvDay() {
+        return tvDay;
+    }
+
+    public void setTvDay(Text tvDay) {
+        this.tvDay = tvDay;
+    }
+
+    public static Element get_indicatorDrawable() {
+        return _indicatorDrawable;
+    }
+
+    public static void set_indicatorDrawable(Element _indicatorDrawable) {
+        DayView._indicatorDrawable = _indicatorDrawable;
+    }
+
+    public static Element get_selectionDrawable() {
+        return _selectionDrawable;
+    }
+
+    public static void set_selectionDrawable(Element _selectionDrawable) {
+        DayView._selectionDrawable = _selectionDrawable;
+    }
+
+    public static Integer get_indicatorMarginBottom() {
+        return _indicatorMarginBottom;
+    }
+
+    public static void set_indicatorMarginBottom(Integer _indicatorMarginBottom) {
+        DayView._indicatorMarginBottom = _indicatorMarginBottom;
+    }
+
+    public static Integer get_indicatorSize() {
+        return _indicatorSize;
+    }
+
+    public static void set_indicatorSize(Integer _indicatorSize) {
+        DayView._indicatorSize = _indicatorSize;
+    }
+
+    public static Integer get_measuredHeight() {
+        return _measuredHeight;
+    }
+
+    public static void set_measuredHeight(Integer _measuredHeight) {
+        DayView._measuredHeight = _measuredHeight;
+    }
+
+    public void setDay(CalendarDay day) {
+        this.day = day;
+    }
+
+    public boolean isIndicatorVisible() {
+        return indicatorVisible;
+    }
+
+    public void setIndicatorVisible(boolean indicatorVisible) {
+        this.indicatorVisible = indicatorVisible;
+    }
+
+    public DisplayManager getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(DisplayManager metrics) {
+        this.metrics = metrics;
+    }
 
     static {
         _colorPrimary = null;
@@ -39,64 +126,58 @@ public class DayView extends FrameLayout {
         _indicatorDrawable = null;
     }
 
-    private View indicator;
-    private CalendarDay day;
-    private boolean indicatorVisible;
-    private boolean selected;
-    private DisplayMetrics metrics;
-    private TextView tvDay;
+
 
     public DayView(Context context) {
         super(context);
     }
-
     public DayView(Context context, CalendarDay day) {
         super(context);
-        this.metrics = getResources().getDisplayMetrics();
+
         this.day = day;
+        this.context=context;
         init();
     }
 
-    public DayView(Context context, AttributeSet attrs) {
+    public DayView(Context context, AttrSet attrs) {
         super(context, attrs);
     }
 
-    public DayView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public DayView(Context context, AttrSet attrs, int defStyleAttr) {
+          super(context, attrs, String.valueOf(defStyleAttr));
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DayView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
+    private static Element generateCircleCanvas(Color color) {
 
-    private static Drawable generateCircleDrawable(int color) {
-        ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
-        drawable.getPaint().setColor(color);
-        return drawable;
+        ShapeElement element=new ShapeElement();
+        element.setShape(ShapeElement.OVAL);
+        element.setRgbColor(new RgbColor(color.getValue()));
+        return element;
     }
 
     private void init() {
+
         this.selected = false;
         this.indicatorVisible = false;
+        this.tvDay = new Text(getContext());
+        this.tvDay.setText(String.format("%d", this.day.getDay()));
+        this.tvDay.setTextSize(dpToPx(getContext(),DEFAULT_TEXT_SIZE));
+        this.tvDay.setTextColor(Color.WHITE);
+        this.tvDay.setTextAlignment(TextAlignment.CENTER);
+        StackLayout.LayoutConfig layoutConfig;
+        layoutConfig = new StackLayout.LayoutConfig(getDefaultMeasuredHeight(),getDefaultMeasuredHeight());
+        layoutConfig.alignment=LayoutAlignment.HORIZONTAL_CENTER;
+        this.tvDay.setLayoutConfig(layoutConfig);
 
-        this.tvDay = new TextView(getContext());
-        this.tvDay.setText(String.format("%d", new Object[]{Integer.valueOf(this.day.getDay())}));
-        this.tvDay.setTextSize(TypedValue.COMPLEX_UNIT_SP, DEFAULT_TEXT_SIZE);
-        this.tvDay.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-        this.tvDay.setGravity(Gravity.CENTER);
-        LayoutParams params = new LayoutParams(getDefaultMeasuredHeight(), getDefaultMeasuredHeight());
-        params.gravity = Gravity.CENTER_HORIZONTAL;
-        this.tvDay.setLayoutParams(params);
+        this.indicator = new Component(getContext());
+        StackLayout.LayoutConfig indicator_config = new StackLayout.LayoutConfig(getDefaultIndicatorSize(),getDefaultIndicatorSize());
+        indicator_config.alignment=LayoutAlignment.BOTTOM + LayoutAlignment.HORIZONTAL_CENTER;
+        indicator_config.setMargins(0, 0, 0, getDefaultIndicatorMarginBottom());
+        this.indicator.setLayoutConfig(indicator_config);
 
-        this.indicator = new View(getContext());
-        LayoutParams params_indicator = new LayoutParams(getDefaultIndicatorSize(), getDefaultIndicatorSize());
-        params_indicator.gravity = Gravity.BOTTOM + Gravity.CENTER_HORIZONTAL;
-        params_indicator.setMargins(0, 0, 0, getDefaultIndicatorMarginBottom());
-        this.indicator.setLayoutParams(params_indicator);
+        this.addComponent(this.tvDay);
+        this.addComponent(this.indicator);
 
-        addView(this.tvDay);
-        addView(this.indicator);
     }
 
     public CalendarDay getDay() {
@@ -104,7 +185,7 @@ public class DayView extends FrameLayout {
     }
 
     public String getText() {
-        return this.tvDay.getText().toString();
+        return this.tvDay.getText();
     }
 
     public boolean isSelected() {
@@ -117,25 +198,18 @@ public class DayView extends FrameLayout {
             this.selected = selected;
 
             if (this.selected) {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    this.tvDay.setBackgroundDrawable(getSelectionDrawable());
-                } else {
-                    this.tvDay.setBackground(getSelectionDrawable());
-                }
-                this.tvDay.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                this.indicator.setVisibility(View.GONE);
-                this.tvDay.setTypeface(null, Typeface.BOLD);
+                Element element=getSelectionDrawable();
+                this.tvDay.setBackground(element);
+                this.tvDay.setTextColor(Color.MAGENTA);
+                this.indicator.setVisibility(Component.HIDE);
+                Font font=Font.DEFAULT_BOLD;
+                this.tvDay.setFont(font);
                 return;
             }
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                this.tvDay.setBackgroundDrawable(null);
-            } else {
-                this.tvDay.setBackground(null);
-            }
-
-            this.tvDay.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-            this.tvDay.setTypeface(null, Typeface.NORMAL);
+            this.tvDay.setBackground(null);
+            this.tvDay.setTextColor(Color.WHITE);
+            Font font=Font.DEFAULT;this.tvDay.setFont(font);
             refreshIndicatorVisibility();
         }
     }
@@ -145,12 +219,9 @@ public class DayView extends FrameLayout {
         if (this.indicatorVisible != visible) {
             this.indicatorVisible = visible;
 
-            if (this.indicatorVisible && this.indicator.getBackground() == null) {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    this.indicator.setBackgroundDrawable(getIndicatorDrawable());
-                } else {
-                    this.indicator.setBackground(getIndicatorDrawable());
-                }
+            if (this.indicatorVisible && this.indicator.getBackgroundElement() == null) {
+                Element element=getIndicatorDrawable();
+                this.indicator.setBackground(element);
             }
 
             refreshIndicatorVisibility();
@@ -158,48 +229,50 @@ public class DayView extends FrameLayout {
     }
 
     private void refreshIndicatorVisibility() {
-        View indicator = this.indicator;
+        Component indicator = this.indicator;
 
         if (!this.selected && this.indicatorVisible) {
-            indicator.setVisibility(View.VISIBLE);
+            indicator.setVisibility(Component.VISIBLE);
             return;
         }
 
-        indicator.setVisibility(View.GONE);
+        indicator.setVisibility(Component.HIDE);
     }
+
 
     private int getDefaultMeasuredHeight() {
         if (_measuredHeight == null) {
-            _measuredHeight = Integer.valueOf((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_HEIGHT, this.metrics));
+            _measuredHeight = dpToPx(context, DEFAULT_HEIGHT);
         }
-        return _measuredHeight.intValue();
+        return _measuredHeight;
     }
 
     private int getDefaultIndicatorSize() {
         if (_indicatorSize == null) {
-            _indicatorSize = Integer.valueOf((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_INDICATOR_SIZE, this.metrics));
+            _indicatorSize = dpToPx(context, DEFAULT_INDICATOR_SIZE);
         }
-        return _indicatorSize.intValue();
+        return _indicatorSize;
     }
 
     private int getDefaultIndicatorMarginBottom() {
         if (_indicatorMarginBottom == null) {
-            _indicatorMarginBottom = Integer.valueOf((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_INDICATOR_MARGIN_BOTTOM, this.metrics));
+            _indicatorMarginBottom = dpToPx(context,DEFAULT_INDICATOR_MARGIN_BOTTOM);
         }
-        return _indicatorMarginBottom.intValue();
+        return _indicatorMarginBottom;
     }
 
-    private Drawable getSelectionDrawable() {
+    private Element getSelectionDrawable() {
         if (_selectionDrawable == null) {
-            _selectionDrawable = generateCircleDrawable(ContextCompat.getColor(getContext(), R.color.white));
+            _selectionDrawable = generateCircleCanvas(Color.WHITE);
         }
         return _selectionDrawable;
     }
 
-    private Drawable getIndicatorDrawable() {
+    private Element getIndicatorDrawable() {
         if (_indicatorDrawable == null) {
-            _indicatorDrawable = generateCircleDrawable(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            _indicatorDrawable = generateCircleCanvas(Color.MAGENTA);
         }
         return _indicatorDrawable;
     }
 }
+

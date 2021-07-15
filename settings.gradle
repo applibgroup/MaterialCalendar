@@ -1,1 +1,2 @@
-include ':app', ':materialcalendar'
+//noinspection SpellCheckingInspection
+include ':entry', ':materialcalendar'
