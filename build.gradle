@@ -24,7 +24,6 @@ buildscript {
         classpath 'com.huawei.ohos:hap:2.4.2.7'
         classpath 'com.huawei.ohos:decctest:1.0.0.7'
         classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
-
     }
 }
 
@@ -36,18 +35,13 @@ allprojects {
         maven {
             url 'https://developer.huawei.com/repo/'
         }
-        maven {
-            url 'https://mirrors.huaweicloud.com/repository/maven/'
-        }
         jcenter()
     }
-
     task checkstyle(type: Checkstyle) {
         showViolations = true
         configFile file("huawei/config/checkstyle.xml")
         source 'entry/src/main/java'
         source 'support/src/main/java'
-
         include '**/*.java'
 
         // empty classpath
@@ -56,7 +50,6 @@ allprojects {
 }
 checkstyle {
     toolVersion "8.43"
-
 }
 
 sonarqube {

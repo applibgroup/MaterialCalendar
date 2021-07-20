@@ -56,7 +56,7 @@ public class MainAbilitySliceTest {
         dateChangedListener=new OnDateChangedListener() {
             @Override
             public void onDateChanged(Date date) {
-                //Do nothing
+                /*Do nothing*/
             }
         };
     }
@@ -149,7 +149,7 @@ public class MainAbilitySliceTest {
         OnDateChangedListener listener=new OnDateChangedListener() {
             @Override
             public void onDateChanged(Date date) {
-                //Do nothing
+                /*Do nothing*/
             }
         };
         calendarView.setOnDateChangedListener(listener);
@@ -162,7 +162,7 @@ public class MainAbilitySliceTest {
         OnMonthChangedListener listener=new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(Date date) {
-                //Do nothing
+                /*Do nothing*/
             }
         };
         calendarView.setOnMonthChangedListener(listener);
