@@ -30,7 +30,7 @@ public class DayView extends StackLayout {
     private static Integer _indicatorMarginBottom;
     private static Integer _indicatorSize;
     private static Integer _measuredHeight;
-    private static Integer _colorPrimary;
+
 
     private Context context;
     private Component indicator;
@@ -118,7 +118,7 @@ public class DayView extends StackLayout {
     }
 
     static {
-        _colorPrimary = null;
+
         _measuredHeight = null;
         _indicatorSize = null;
         _indicatorMarginBottom = null;
@@ -229,14 +229,14 @@ public class DayView extends StackLayout {
     }
 
     private void refreshIndicatorVisibility() {
-        Component indicator = this.indicator;
+        Component indicator_c = this.indicator;
 
         if (!this.selected && this.indicatorVisible) {
-            indicator.setVisibility(Component.VISIBLE);
+            indicator_c.setVisibility(Component.VISIBLE);
             return;
         }
 
-        indicator.setVisibility(Component.HIDE);
+        indicator_c.setVisibility(Component.HIDE);
     }
 
 

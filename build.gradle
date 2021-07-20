@@ -1,5 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply plugin: 'com.huawei.ohos.app'
+apply plugin: 'org.sonarqube'
+apply plugin: 'checkstyle'
 
 ohos {
     compileSdkVersion 5
@@ -21,6 +23,7 @@ buildscript {
     dependencies {
         classpath 'com.huawei.ohos:hap:2.4.2.7'
         classpath 'com.huawei.ohos:decctest:1.0.0.7'
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
     }
 }
 
@@ -33,5 +36,28 @@ allprojects {
             url 'https://developer.huawei.com/repo/'
         }
         jcenter()
+    }
+    task checkstyle(type: Checkstyle) {
+        showViolations = true
+        configFile file("huawei/config/checkstyle.xml")
+        source 'entry/src/main/java'
+        source 'support/src/main/java'
+        include '**/*.java'
+
+        // empty classpath
+        classpath = files()
+    }
+}
+checkstyle {
+    toolVersion "8.43"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "applibgroup_materialcalendar"
+        property "sonar.organization", "applibgroup"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.sources", "entry,materialcalendar"
+        property "sonar.java.binaries", "entry/build,materialcalendar/build"
     }
 }

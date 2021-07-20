@@ -33,7 +33,7 @@ public class MainAbilitySliceTest {
     CalendarCallback calendarCallback;
     CalendarDay day;
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         mContext= AbilityDelegatorRegistry.getAbilityDelegator().getAppContext();
         calendarView=new CalendarView(mContext);
         day=CalendarDay.today();
@@ -56,14 +56,11 @@ public class MainAbilitySliceTest {
         dateChangedListener=new OnDateChangedListener() {
             @Override
             public void onDateChanged(Date date) {
-
+                //Do nothing
             }
         };
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
 
     @Test
     public void setCalendarView(){
@@ -152,7 +149,7 @@ public class MainAbilitySliceTest {
         OnDateChangedListener listener=new OnDateChangedListener() {
             @Override
             public void onDateChanged(Date date) {
-
+                //Do nothing
             }
         };
         calendarView.setOnDateChangedListener(listener);
@@ -165,7 +162,7 @@ public class MainAbilitySliceTest {
         OnMonthChangedListener listener=new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(Date date) {
-
+                //Do nothing
             }
         };
         calendarView.setOnMonthChangedListener(listener);

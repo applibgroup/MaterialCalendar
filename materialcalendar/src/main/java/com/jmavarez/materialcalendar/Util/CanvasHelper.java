@@ -5,6 +5,9 @@ import ohos.app.Context;
 
 public class CanvasHelper {
 
+    private CanvasHelper(){
+        throw new IllegalStateException("Utility class");
+    }
     public static int dpToPx(Context context, int dp) {
         return dp * context.getResourceManager().getDeviceCapability().screenDensity / 160;
     }
