@@ -64,7 +64,6 @@ public class MainAbilitySlice extends AbilitySlice {
         String d = new SimpleDateFormat("dd/MM/yyyy").format(calendarView.getDateSelected());
         dateString.setText(d);
 
-//        emptyEvents.setVisibility(View.GONE);
     }
 
 

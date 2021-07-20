@@ -1,15 +1,0 @@
-
-˜
-java:S1319‚"|The type of the "dayViewDecorators" object should be an interface such as "List" rather than the implementation "ArrayList".(úá“³ýÿÿÿÿ
-Q	java:S110"<This class has 6 parents which is greater than 5 authorized.(Ï ‡Ú
-k
-java:S1104"UMake selection a static final constant or non-public and provide accessors if needed.(°­Ê
-r
-java:S1104ÿ"VMake mDateStart a static final constant or non-public and provide accessors if needed.(§£Áƒùÿÿÿÿ
-s
-java:S1104"WMake mComponents a static final constant or non-public and provide accessors if needed.(é™í­üÿÿÿÿ
-y
-java:S1104‚"]Make dayViewDecorators a static final constant or non-public and provide accessors if needed.(úá“³ýÿÿÿÿ
-]
-java:S1128"GRemove this unused import 'com.jmavarez.materialcalendar.Util.LogUtil'.(…èÔÏ
-]	java:S125a"<This block of commented-out lines of code should be removed.(ðëÔ‘úÿÿÿÿ8š¯ýÑ©/

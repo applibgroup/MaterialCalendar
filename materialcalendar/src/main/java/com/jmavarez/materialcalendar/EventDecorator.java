@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 
 public class EventDecorator implements DayViewDecorator {
-    private final int color;
+    private final int color;//Will be used for Decoration
     private final HashSet<CalendarDay> calendarDays;
     static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0x00201, "MY_TAG");
 
@@ -25,6 +25,6 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayView view) {
-
+        // Do Something
     }
 }

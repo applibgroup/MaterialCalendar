@@ -1,13 +1,15 @@
 package com.jmavarez.materialcalendar.Util;
 
-import ohos.global.resource.NotExistException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
 public class CalendarUtils {
+
+    private CalendarUtils(){
+        throw new IllegalStateException("Utility class");
+    }
 
     public static Calendar getInstance(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -81,30 +83,30 @@ public class CalendarUtils {
             return this.mDay;
         }
 
-        public String getShortName() throws IOException, NotExistException {
-            String res_string;
+        public String getShortName()  {
+            String string;
             switch (this.mDay.intValue()) {
                 case 1:
-                    res_string = "M";
+                    string = "M";
                     break;
                 case 2:
                 case 4:
-                    res_string= "T";
+                    string = "T";
                     break;
                 case 3:
-                    res_string = "W";
+                    string = "W";
                     break;
                 case 5:
-                    res_string = "F";
+                    string = "F";
                     break;
                 case 6:
                 case 7:
-                    res_string = "S";
+                    string = "S";
                     break;
                 default:
                     return "getDay";
             }
-            return res_string;
+            return string;
 
         }
     }

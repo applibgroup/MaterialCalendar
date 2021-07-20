@@ -1,9 +1,0 @@
-
-Y
-java:S1155_">Use isEmpty() to check whether the collection is empty or not.(¼Ù™ìúÿÿÿÿ
-l	java:S117ƒ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öŽì•þÿÿÿÿ
-g	java:S117×"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïˆ¸´
-Z
-java:S3358z"DExtract this nested ternary operation into an independent statement.(¸ÃÅœ
-V
-java:S1117Ô":Rename "offset" which hides the field declared at line 53.(òÌãóýÿÿÿÿ

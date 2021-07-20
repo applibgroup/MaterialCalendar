@@ -20,6 +20,9 @@ public final class CalendarDay implements Serializable {
         return from(CalendarUtils.getInstance());
     }
 
+    /**
+     * @deprecated (when, why, refactoring advice...)
+     */
     @Deprecated
     public CalendarDay(int day, int month, int year) {
         this.day = day;
@@ -87,6 +90,11 @@ public final class CalendarDay implements Serializable {
     @Override
     public String toString() {
         return "CalendarDay [" + day + "-" + month + "-" + year + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     @Override

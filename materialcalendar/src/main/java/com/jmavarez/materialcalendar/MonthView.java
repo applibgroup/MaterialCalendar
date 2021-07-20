@@ -76,7 +76,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
     }
 
     private void init() {
-        this.dayViews = new ArrayList();
+        this.dayViews = new ArrayList<DayView>();
 
         this.offset = CalendarUtils.getDayOfWeek(this.calendarDay.getCalendar(), this.starsOnSunday) - 1;
         setLayoutConfig(new LayoutConfig(LayoutConfig.MATCH_PARENT,LayoutConfig.MATCH_PARENT));
@@ -93,7 +93,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
 
     public void refreshEvents() {
         if (this.callback != null && this.callback.getIndicatorsVisible() && this.callback.getEvents() != null && this.callback.getEvents().size() > 0) {
-            Iterator it = this.dayViews.iterator();
+            Iterator<DayView> it = this.dayViews.iterator();
             int year = this.calendarDay.getYear();
             int month = this.calendarDay.getMonth() + 1;
 
@@ -119,7 +119,16 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
  void addHeaders() {
         int i = 1;
         while (i <= DEFAULT_DAYS_IN_WEEK) {
-            int actual = this.starsOnSunday ? i == 1 ? DEFAULT_DAYS_IN_WEEK : i - 1 : i;
+            int actual;
+            if(this.starsOnSunday)
+            {
+                if(i==1){
+                   actual = DEFAULT_DAYS_IN_WEEK;
+                }
+                else
+                    actual = i-1;
+            }
+            else actual = i;
             Text text = new Text(getContext());
 
             try {
@@ -156,7 +165,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
             select = false;
         }
 
-        Iterator it = this.dayViews.iterator();
+        Iterator<DayView> it = this.dayViews.iterator();
 
         while (it.hasNext()) {
             boolean z;
@@ -175,7 +184,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
 
 
     public void hideIndicators() {
-        Iterator it = this.dayViews.iterator();
+        Iterator<DayView> it = this.dayViews.iterator();
 
         while (it.hasNext()) {
             ((DayView) it.next()).setIndicatorVisibility(false);
@@ -209,7 +218,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
         int marginTop=dpToPx(getContext(),8);
         int marginLeft=dpToPx(getContext(),8);
         int count = getChildCount();
-        int offset=this.offset;
+        int offsets =this.offset;
         int headOffset=0;
         int childTop=marginTop;
         boolean Arranged=false;
@@ -226,11 +235,11 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
                 Arranged=true;
             }
             else if(child instanceof DayView){
-                childleft=(width*offset)+marginLeft;
+                childleft=(width* offsets)+marginLeft;
                 child.arrange(childleft,height+childTop,width,(height));
-                offset++;
-                if(offset >= DEFAULT_DAYS_IN_WEEK){
-                    offset=0;
+                offsets++;
+                if(offsets >= DEFAULT_DAYS_IN_WEEK){
+                    offsets =0;
                     childTop += height;
                 }
                 Arranged=true;
@@ -241,9 +250,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
 
     class ClickListeners implements ClickedListener {
 
-        public ClickListeners() {
 
-        }
 
         @Override
         public void onClick(Component component) {

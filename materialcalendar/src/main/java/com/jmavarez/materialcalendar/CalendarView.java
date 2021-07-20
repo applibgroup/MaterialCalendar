@@ -66,7 +66,7 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
     private static final String CALENDARVIEW_MC_COLOR = "mc_color";
     private static final String CALENDARVIEW_MC_STARTSONSATURDAY = "CalendarView_mc_startsOnSunday";
     static final HiLogLabel label = new HiLogLabel(HiLog.LOG_APP, 0xD000F00, "CALENDAR_VIEW");
-
+    // b2e22bcf9b3e18b7486ced889facf6423c8cc5a5
     public CalendarView(Context context) {
         super(context);
         this.startsOnSunday = false;
@@ -94,10 +94,7 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
         if(this.getBackgroundElement()==null)
         {
             ShapeElement element=new ShapeElement();
-            //if(calendarColor==0x3F51B5)
-            //element.setRgbColor(new RgbColor(63,81,181));
-            //else
-                element.setRgbColor(new RgbColor(RgbColor.fromArgbInt(calendarColor)));
+            element.setRgbColor(new RgbColor(RgbColor.fromArgbInt(calendarColor)));
             setBackground(element);
         }
 
@@ -212,24 +209,22 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
     public void scrollToMonth(CalendarDay day) {
         for (int i = 0; i < this.adapter.getmComponents().size(); i++) {
             MonthView monthView = this.adapter.getmComponents().valueAt(i);
-            if (monthView != null) {
-                if (day.equalsMonth(monthView.getCalendarDay())) {
-                    int pos = 30 + (day.getMonth() - CalendarDay.from(this.selection).getMonth());
-                    setCurrentPage(pos,true);
-                    if(CalendarView.this.onMonthChangedListener!=null)
-                    {
-                        CalendarView.this.onMonthChangedListener.onMonthChanged(day.getDate());
-                    }
-                    onDateChanged(day.getDate());
-                    return;
+            if (monthView != null && day.equalsMonth(monthView.getCalendarDay())) {
+                int pos = 30 + (day.getMonth() - CalendarDay.from(this.selection).getMonth());
+                setCurrentPage(pos,true);
+                if(CalendarView.this.onMonthChangedListener!=null)
+                {
+                    CalendarView.this.onMonthChangedListener.onMonthChanged(day.getDate());
                 }
+                onDateChanged(day.getDate());
+                return;
             }
         }
     }
 
     @Override
     public void onPageSliding(int i, float v, int i1) {
-
+            //Do Something
     }
 
     @Override
@@ -240,14 +235,16 @@ public class CalendarView extends WrapContentViewPager implements OnDateChangedL
 
     }
 
+
     @Override
     public void onPageChosen(int i) {
-
+        // Do Something
     }
+
 
     @Override
     public void onMonthChanged(Date date) {
-
+        //Do Something
     }
 
     public class CalendarAdapter extends PageSliderProvider {
