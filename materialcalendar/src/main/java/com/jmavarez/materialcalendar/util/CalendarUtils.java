@@ -16,8 +16,8 @@ public class CalendarUtils {
     /**
      * get Calendar Instance.
      *
-     * @param date - date argument
-     * @return - returns Calendar object
+     * @param date - date argument.
+     * @return - returns Calendar object.
      */
     public static Calendar getInstance(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -31,7 +31,7 @@ public class CalendarUtils {
     /**
      * get Calendar Instance.
      *
-     * @return -  returns Calendar object
+     * @return -  returns Calendar object.
      */
     public static Calendar getInstance() {
         Calendar calendar = Calendar.getInstance();
@@ -42,7 +42,7 @@ public class CalendarUtils {
     /**
      * setToFirstDay.
      *
-     * @param calendar - calendar
+     * @param calendar - calendar.
      */
     public static void setToFirstDay(Calendar calendar) {
         int year = getYear(calendar);
@@ -54,8 +54,8 @@ public class CalendarUtils {
     /**
      * copyToDate.
      *
-     * @param from - from Date
-     * @param to -to Date
+     * @param from - from Date.
+     * @param to -to Date.
      */
     public static void copyDateTo(Calendar from, Calendar to) {
         int year = getYear(from);
@@ -89,8 +89,8 @@ public class CalendarUtils {
     /**
      * get month.
      *
-     * @param c -
-     * @return -
+     * @param c - calendar.
+     * @return - return.
      */
     public static int getMonth(Calendar c) {
         return c.get(Calendar.MONTH);
@@ -99,8 +99,8 @@ public class CalendarUtils {
     /**
      * get Year.
      *
-     * @param c -
-     * @return -
+     * @param c - calendar.
+     * @return - return.
      */
     public static int getYear(Calendar c) {
         return c.get(Calendar.YEAR);
@@ -109,8 +109,8 @@ public class CalendarUtils {
     /**
      * getEndOfMonth.
      *
-     * @param c -
-     * @return -
+     * @param c - calendar.
+     * @return - return.
      */
     public static int getEndOfMonth(Calendar c) {
         return c.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -119,9 +119,9 @@ public class CalendarUtils {
     /**
      * getConvertedDayOfWeek.
      *
-     * @param day -
-     * @param startOnSunday -
-     * @return -
+     * @param day - day.
+     * @param startOnSunday - startOnSunday.
+     * @return - return.
      */
     public static int getConvertedDayOfWeek(int day, boolean startOnSunday) {
         if (startOnSunday) {
@@ -138,8 +138,8 @@ public class CalendarUtils {
 
         /**
          * Day Constructor.
-         * 
-         * @param day -
+         *
+         * @param day - day.
          */
         public Day(@NotNull Integer day) {
             this.mDay = null;

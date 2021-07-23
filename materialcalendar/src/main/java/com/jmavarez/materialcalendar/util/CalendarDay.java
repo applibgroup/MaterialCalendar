@@ -144,6 +144,12 @@ public final class CalendarDay implements Serializable {
         return day == that.day && month == that.month && year == that.year;
     }
 
+    /**
+     * equalsMonth.
+     *
+     * @param o - object.
+     * @return - returns.
+     */
     public boolean equalsMonth(Object o) {
         if (this == o) {
             return true;
