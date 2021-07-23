@@ -2,11 +2,13 @@ package com.jmavarez.materialcalendar.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * CalendarDay
+ */
 public final class CalendarDay implements Serializable {
     private final int day;
     private final int month;
@@ -21,10 +23,11 @@ public final class CalendarDay implements Serializable {
     }
 
     /**
+     * CalenderDay Constructor
      *
-     * @param day
-     * @param month
-     * @param year
+     * @param day - date of the day
+     * @param month - month of the day
+     * @param year - year of the day
      */
     public CalendarDay(int day, int month, int year) {
         this.day = day;
@@ -37,6 +40,11 @@ public final class CalendarDay implements Serializable {
         return new CalendarDay(day, month, year);
     }
 
+    /**
+     * CalenderDay
+     * @param calendar - calendar Instance
+     * @return - returns
+     */
     public static CalendarDay from(@Nullable Calendar calendar) {
         if (calendar == null) {
             return null;
@@ -48,6 +56,11 @@ public final class CalendarDay implements Serializable {
         );
     }
 
+    /**
+     * CalendarDay
+     * @param date - Date Instance
+     * @return - returns
+     */
     public static CalendarDay from(@Nullable Date date) {
         if (date == null) {
             return null;
@@ -67,6 +80,10 @@ public final class CalendarDay implements Serializable {
         return this.year;
     }
 
+    /**
+     * Date - get function
+     * @return - returns
+     */
     @NotNull
     public Date getDate() {
         if (date == null) {
@@ -75,6 +92,10 @@ public final class CalendarDay implements Serializable {
         return date;
     }
 
+    /**
+     * get Calendar Instance
+     * @return - returns
+     */
     @NotNull
     public Calendar getCalendar() {
         if (calendar == null) {
@@ -99,6 +120,11 @@ public final class CalendarDay implements Serializable {
         return super.hashCode();
     }
 
+    /**
+     * equals - checks whether they are equal or not
+     * @param o - testing object
+     * @return - returns bool
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
