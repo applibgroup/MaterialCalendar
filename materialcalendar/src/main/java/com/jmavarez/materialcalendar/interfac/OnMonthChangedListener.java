@@ -1,4 +1,4 @@
-package com.jmavarez.materialcalendar.Interface;
+package com.jmavarez.materialcalendar.interfac;
 
 import java.util.Date;
 

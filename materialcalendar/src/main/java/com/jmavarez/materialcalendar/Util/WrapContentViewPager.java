@@ -1,4 +1,4 @@
-package com.jmavarez.materialcalendar.Util;
+package com.jmavarez.materialcalendar.util;
 
 import ohos.agp.components.*;
 import ohos.app.Context;

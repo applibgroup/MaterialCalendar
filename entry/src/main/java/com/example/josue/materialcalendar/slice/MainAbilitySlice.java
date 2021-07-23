@@ -3,18 +3,23 @@ package com.example.josue.materialcalendar.slice;
 import com.example.josue.materialcalendar.ResourceTable;
 import com.github.clans.fab.FloatingActionButton;
 import com.jmavarez.materialcalendar.CalendarView;
-import com.jmavarez.materialcalendar.Util.CalendarDay;
-import com.jmavarez.materialcalendar.Util.CalendarUtils;
+import com.jmavarez.materialcalendar.util.CalendarDay;
+import com.jmavarez.materialcalendar.util.CalendarUtils;
+
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.aafwk.content.Intent;
-import ohos.agp.components.Button;
+
 import ohos.agp.components.Component;
 import ohos.agp.components.Text;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.HashSet;
 
+/**
+ * MainAbilitySlice
+ */
 public class MainAbilitySlice extends AbilitySlice {
 
     CalendarView calendarView;
@@ -29,7 +34,7 @@ public class MainAbilitySlice extends AbilitySlice {
     public void onStart(Intent intent) {
         super.onStart(intent);
         super.setUIContent(ResourceTable.Layout_ability_main);
-        calendarView =(CalendarView) findComponentById(ResourceTable.Id_calendarView);
+        calendarView = (CalendarView) findComponentById(ResourceTable.Id_calendarView);
         monthString = (Text) findComponentById(ResourceTable.Id_month);
         dateString = (Text) findComponentById(ResourceTable.Id_date);
         floatingActionButton = (FloatingActionButton) findComponentById(ResourceTable.Id_fab);
