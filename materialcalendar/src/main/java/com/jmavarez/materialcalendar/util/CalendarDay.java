@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * CalendarDay
+ * CalendarDay.
  */
 public final class CalendarDay implements Serializable {
     private final int day;
@@ -23,7 +23,7 @@ public final class CalendarDay implements Serializable {
     }
 
     /**
-     * CalenderDay Constructor
+     * CalenderDay Constructor.
      *
      * @param day - date of the day
      * @param month - month of the day
@@ -41,7 +41,8 @@ public final class CalendarDay implements Serializable {
     }
 
     /**
-     * CalenderDay
+     * CalenderDay.
+     *
      * @param calendar - calendar Instance
      * @return - returns
      */
@@ -57,7 +58,8 @@ public final class CalendarDay implements Serializable {
     }
 
     /**
-     * CalendarDay
+     * CalendarDay.
+     *
      * @param date - Date Instance
      * @return - returns
      */
@@ -81,7 +83,8 @@ public final class CalendarDay implements Serializable {
     }
 
     /**
-     * Date - get function
+     * Date - get function.
+     *
      * @return - returns
      */
     @NotNull
@@ -93,7 +96,8 @@ public final class CalendarDay implements Serializable {
     }
 
     /**
-     * get Calendar Instance
+     * get Calendar Instance.
+     *
      * @return - returns
      */
     @NotNull
@@ -121,7 +125,8 @@ public final class CalendarDay implements Serializable {
     }
 
     /**
-     * equals - checks whether they are equal or not
+     * equals - checks whether they are equal or not.
+     *
      * @param o - testing object
      * @return - returns bool
      */

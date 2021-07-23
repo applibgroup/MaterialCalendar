@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * CalendarUtils utility class
+ * CalendarUtils utility class.
  */
 public class CalendarUtils {
 
@@ -14,7 +14,8 @@ public class CalendarUtils {
     }
 
     /**
-     * get Calendar Instance
+     * get Calendar Instance.
+     *
      * @param date - date argument
      * @return - returns Calendar object
      */
@@ -28,7 +29,8 @@ public class CalendarUtils {
     }
 
     /**
-     * get Calendar Instance
+     * get Calendar Instance.
+     *
      * @return -  returns Calendar object
      */
     public static Calendar getInstance() {
@@ -38,7 +40,8 @@ public class CalendarUtils {
     }
 
     /**
-     * setToFirstDay
+     * setToFirstDay.
+     *
      * @param calendar - calendar
      */
     public static void setToFirstDay(Calendar calendar) {
@@ -49,7 +52,8 @@ public class CalendarUtils {
     }
 
     /**
-     * copyToDate
+     * copyToDate.
+     *
      * @param from - from Date
      * @param to -to Date
      */
@@ -62,26 +66,29 @@ public class CalendarUtils {
     }
 
     /**
-     * getDay
-     * @param c - c
-     * @return - returns
+     * getDay.
+     *
+     * @param c - c.
+     * @return - returns.
      */
     public static int getDay(Calendar c) {
         return c.get(Calendar.DAY_OF_MONTH);
     }
 
     /**
-     * getDayofWeek
-     * @param c - c
-     * @param startOnSunday - startOn sunday
-     * @return - retunrs
+     * getDayOfWeek.
+     *
+     * @param c - c.
+     * @param startOnSunday - startOn sunday.
+     * @return - return.
      */
     public static int getDayOfWeek(Calendar c, boolean startOnSunday) {
         return getConvertedDayOfWeek(c.get(Calendar.DAY_OF_WEEK), startOnSunday);
     }
 
     /**
-     * get month
+     * get month.
+     *
      * @param c -
      * @return -
      */
@@ -90,7 +97,8 @@ public class CalendarUtils {
     }
 
     /**
-     * get Year
+     * get Year.
+     *
      * @param c -
      * @return -
      */
@@ -99,7 +107,8 @@ public class CalendarUtils {
     }
 
     /**
-     * getEndOfMonth
+     * getEndOfMonth.
+     *
      * @param c -
      * @return -
      */
@@ -108,7 +117,8 @@ public class CalendarUtils {
     }
 
     /**
-     * getConvertedDayofWeek
+     * getConvertedDayOfWeek.
+     *
      * @param day -
      * @param startOnSunday -
      * @return -
@@ -121,13 +131,14 @@ public class CalendarUtils {
     }
 
     /**
-     * Day Class
+     * Day Class.
      */
     public static class Day {
         private Integer mDay;
 
         /**
-         * Day Constructor
+         * Day Constructor.
+         * 
          * @param day -
          */
         public Day(@NotNull Integer day) {
@@ -143,7 +154,7 @@ public class CalendarUtils {
         }
 
         /**
-         * getShortName。
+         * getShortName.
          */
         public String getShortName() {
             String string;

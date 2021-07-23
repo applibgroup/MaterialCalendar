@@ -6,7 +6,7 @@ import ohos.agp.components.PageSlider;
 import ohos.app.Context;
 
 /**
- * { @summary WrapContentViewPager extension of pageSlider
+ * { @summary WrapContentViewPager extension of pageSlider.
  * }
  */
 public class WrapContentViewPager extends PageSlider implements Component.EstimateSizeListener {
