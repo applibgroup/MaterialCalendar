@@ -1,11 +1,11 @@
-package com.jmavarez.materialcalendar.Util;
+package com.jmavarez.materialcalendar.util;
 
 import ohos.agp.components.Component;
 import ohos.app.Context;
 
 public class CanvasHelper {
 
-    private CanvasHelper(){
+    private CanvasHelper() {
         throw new IllegalStateException("Utility class");
     }
     public static int dpToPx(Context context, int dp) {

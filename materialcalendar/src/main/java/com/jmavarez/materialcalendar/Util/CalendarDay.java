@@ -1,4 +1,4 @@
-package com.jmavarez.materialcalendar.Util;
+package com.jmavarez.materialcalendar.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,18 +12,20 @@ public final class CalendarDay implements Serializable {
     private final int month;
     private final int year;
 
-    private transient Calendar _calendar;
+    private transient Calendar calendar;
 
-    private transient Date _date;
+    private transient Date date;
 
     public static CalendarDay today() {
         return from(CalendarUtils.getInstance());
     }
 
     /**
-     * @deprecated (when, why, refactoring advice...)
+     *
+     * @param day
+     * @param month
+     * @param year
      */
-    @Deprecated
     public CalendarDay(int day, int month, int year) {
         this.day = day;
         this.month = month;
@@ -67,19 +69,19 @@ public final class CalendarDay implements Serializable {
 
     @NotNull
     public Date getDate() {
-        if (_date == null) {
-            _date = getCalendar().getTime();
+        if (date == null) {
+            date = getCalendar().getTime();
         }
-        return _date;
+        return date;
     }
 
     @NotNull
     public Calendar getCalendar() {
-        if (_calendar == null) {
-            _calendar = CalendarUtils.getInstance();
-            copyTo(_calendar);
+        if (calendar == null) {
+            calendar = CalendarUtils.getInstance();
+            copyTo(calendar);
         }
-        return _calendar;
+        return calendar;
     }
 
     public void copyTo(@NotNull Calendar calendar) {

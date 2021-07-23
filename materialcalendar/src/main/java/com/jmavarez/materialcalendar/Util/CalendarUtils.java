@@ -1,4 +1,4 @@
-package com.jmavarez.materialcalendar.Util;
+package com.jmavarez.materialcalendar.util;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -71,10 +71,10 @@ public class CalendarUtils {
     public static class Day {
         private Integer mDay;
 
-        public Day(@NotNull Integer day) throws Exception {
+        public Day(@NotNull Integer day) {
             this.mDay = null;
             if (day.intValue() < 1 || day.intValue() > 7) {
-                throw new Exception("Day must be between 1 and 7");
+                throw new IllegalArgumentException("Day must be between 1 and 7");
             }
             this.mDay = day;
         }
@@ -83,9 +83,14 @@ public class CalendarUtils {
             return this.mDay;
         }
 
-        public String getShortName()  {
+        /**
+         *
+         *getShortName
+         *
+         */
+        public String getShortName() {
             String string;
-            switch (this.mDay.intValue()) {
+            switch (this.mDay) {
                 case 1:
                     string = "M";
                     break;

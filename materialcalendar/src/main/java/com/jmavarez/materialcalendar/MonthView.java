@@ -1,9 +1,9 @@
 package com.jmavarez.materialcalendar;
 
-import com.jmavarez.materialcalendar.Interface.CalendarCallback;
-import com.jmavarez.materialcalendar.Interface.OnDateChangedListener;
-import com.jmavarez.materialcalendar.Util.CalendarDay;
-import com.jmavarez.materialcalendar.Util.CalendarUtils;
+import com.jmavarez.materialcalendar.interfac.CalendarCallback;
+import com.jmavarez.materialcalendar.interfac.OnDateChangedListener;
+import com.jmavarez.materialcalendar.util.CalendarDay;
+import com.jmavarez.materialcalendar.util.CalendarUtils;
 import ohos.agp.components.Component;
 import ohos.agp.components.ComponentContainer;
 import ohos.agp.components.StackLayout;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import static com.jmavarez.materialcalendar.Util.CanvasHelper.dpToPx;
+import static com.jmavarez.materialcalendar.util.CanvasHelper.dpToPx;
 
 public class MonthView extends ComponentContainer implements Component.EstimateSizeListener,ComponentContainer.ArrangeListener {
     private static final int DEFAULT_DAYS_IN_WEEK = 7;
@@ -76,7 +76,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
     }
 
     private void init() {
-        this.dayViews = new ArrayList<DayView>();
+        this.dayViews = new ArrayList<>();
 
         this.offset = CalendarUtils.getDayOfWeek(this.calendarDay.getCalendar(), this.starsOnSunday) - 1;
         setLayoutConfig(new LayoutConfig(LayoutConfig.MATCH_PARENT,LayoutConfig.MATCH_PARENT));
@@ -92,13 +92,13 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
     }
 
     public void refreshEvents() {
-        if (this.callback != null && this.callback.getIndicatorsVisible() && this.callback.getEvents() != null && this.callback.getEvents().size() > 0) {
+        if (this.callback != null && this.callback.getIndicatorsVisible() && this.callback.getEvents() != null && this.callback.getEvents().isEmpty()) {
             Iterator<DayView> it = this.dayViews.iterator();
             int year = this.calendarDay.getYear();
             int month = this.calendarDay.getMonth() + 1;
 
             while (it.hasNext()) {
-                DayView v = (DayView) it.next();
+                DayView v = it.next();
                 int day = v.getDay().getDay();
                 boolean shouldDecorate = false;
                 CalendarDay today = CalendarDay.from(day, month, year);
@@ -120,9 +120,9 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
         int i = 1;
         while (i <= DEFAULT_DAYS_IN_WEEK) {
             int actual;
-            if(this.starsOnSunday)
+            if (this.starsOnSunday)
             {
-                if(i==1){
+                if ( i == 1){
                    actual = DEFAULT_DAYS_IN_WEEK;
                 }
                 else
@@ -132,17 +132,17 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
             Text text = new Text(getContext());
 
             try {
-                text.setText(new CalendarUtils.Day(Integer.valueOf(actual)).getShortName());
+                text.setText(new CalendarUtils.Day(actual).getShortName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            Font font_bold=Font.DEFAULT_BOLD;
+            Font fontbold =Font.DEFAULT_BOLD;
             StackLayout.LayoutConfig config=new StackLayout.LayoutConfig();
             config.alignment= LayoutAlignment.CENTER;
             text.setTextAlignment(TextAlignment.CENTER);
             text.setLayoutConfig(config);
-            text.setFont(font_bold);
+            text.setFont(fontbold);
             text.setTextColor(Color.WHITE);
             text.setTextSize( dpToPx(getContext(),12));
             addComponent(text);
@@ -170,7 +170,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
         while (it.hasNext()) {
             boolean z;
 
-            DayView v = (DayView) it.next();
+            DayView v = it.next();
 
             if (select && v.getDay().getDay() == day        ) {
                 z = true;
@@ -221,7 +221,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
         int offsets =this.offset;
         int headOffset=0;
         int childTop=marginTop;
-        boolean Arranged=false;
+        boolean arranged =false;
         for(int i=0;i<count;i++ )
         {
             Component child=this.getComponentAt(i);
@@ -232,7 +232,7 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
                 childleft=(width*headOffset)+marginLeft;
                 child.arrange(childleft,childTop,width,height);
                 headOffset++;
-                Arranged=true;
+                arranged =true;
             }
             else if(child instanceof DayView){
                 childleft=(width* offsets)+marginLeft;
@@ -242,10 +242,10 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
                     offsets =0;
                     childTop += height;
                 }
-                Arranged=true;
+                arranged =true;
             }
         }
-        return Arranged;
+        return arranged;
     }
 
     class ClickListeners implements ClickedListener {

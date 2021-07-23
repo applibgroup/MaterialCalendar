@@ -1,7 +1,7 @@
-package com.jmavarez.materialcalendar.Interface;
+package com.jmavarez.materialcalendar.interfac;
 
 import com.jmavarez.materialcalendar.DayView;
-import com.jmavarez.materialcalendar.Util.CalendarDay;
+import com.jmavarez.materialcalendar.util.CalendarDay;
 
 public interface DayViewDecorator {
     boolean shouldDecorate(CalendarDay day);

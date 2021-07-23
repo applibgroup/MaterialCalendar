@@ -2,24 +2,19 @@ package com.example.josue.materialcalendar.slice;
 
 import com.jmavarez.materialcalendar.CalendarView;
 import com.jmavarez.materialcalendar.DayView;
-import com.jmavarez.materialcalendar.Interface.CalendarCallback;
-import com.jmavarez.materialcalendar.Interface.OnDateChangedListener;
-import com.jmavarez.materialcalendar.Interface.OnMonthChangedListener;
+import com.jmavarez.materialcalendar.interfac.CalendarCallback;
+import com.jmavarez.materialcalendar.interfac.OnDateChangedListener;
+import com.jmavarez.materialcalendar.interfac.OnMonthChangedListener;
 import com.jmavarez.materialcalendar.MonthView;
-import com.jmavarez.materialcalendar.Util.CalendarDay;
-import com.jmavarez.materialcalendar.Util.CalendarUtils;
+import com.jmavarez.materialcalendar.util.CalendarDay;
 import ohos.aafwk.ability.delegation.AbilityDelegatorRegistry;
 import ohos.agp.components.Component;
 import ohos.agp.components.Text;
-import ohos.agp.components.element.Element;
 import ohos.agp.components.element.ShapeElement;
-import ohos.agp.render.Canvas;
 import ohos.agp.utils.Color;
 import ohos.app.Context;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.manipulation.Ordering;
 
 import java.util.ArrayList;
 import java.util.Date;
