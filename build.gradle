@@ -1,5 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-pply plugin: 'com.huawei.ohos.app'
+apply plugin: 'com.huawei.ohos.app'
 apply plugin: 'org.sonarqube'
 apply plugin: 'checkstyle'
 
