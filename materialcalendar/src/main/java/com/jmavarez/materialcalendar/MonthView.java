@@ -130,13 +130,9 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
             }
             else actual = i;
             Text text = new Text(getContext());
-
-            try {
-                text.setText(new CalendarUtils.Day(actual).getShortName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            
+            text.setText(new CalendarUtils.Day(actual).getShortName());
+ 
             Font fontbold =Font.DEFAULT_BOLD;
             StackLayout.LayoutConfig config=new StackLayout.LayoutConfig();
             config.alignment= LayoutAlignment.CENTER;
