@@ -5,20 +5,16 @@ import com.github.clans.fab.FloatingActionButton;
 import com.jmavarez.materialcalendar.CalendarView;
 import com.jmavarez.materialcalendar.util.CalendarDay;
 import com.jmavarez.materialcalendar.util.CalendarUtils;
-
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.aafwk.content.Intent;
-
 import ohos.agp.components.Component;
 import ohos.agp.components.Text;
-
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.HashSet;
 
 /**
- * MainAbilitySlice
+ * MainAbilitySlice.
  */
 public class MainAbilitySlice extends AbilitySlice {
 

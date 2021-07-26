@@ -109,7 +109,7 @@ public class MainAbilitySliceTest {
     }
 
     @Test
-    public void shouldIndiactorVisibilityTrue(){
+    public void shouldIndicatorVisibilityTrue(){
         DayView dayView=new DayView(mContext);
         dayView.setIndicatorVisible(true);
         assertTrue(dayView.isIndicatorVisible());
