@@ -1,7 +1,7 @@
 package com.jmavarez.materialcalendar;
 
-import com.jmavarez.materialcalendar.util.CalendarDay;
 import static com.jmavarez.materialcalendar.util.CanvasHelper.dpToPx;
+import com.jmavarez.materialcalendar.util.CalendarDay;
 import ohos.agp.colors.RgbColor;
 import ohos.agp.components.AttrSet;
 import ohos.agp.components.Component;
@@ -17,7 +17,7 @@ import ohos.agp.window.service.DisplayManager;
 import ohos.app.Context;
 
 /**
- * DayView
+ * DayView.
  */
 public class DayView extends StackLayout {
     private int defaultHeight = 30;
@@ -86,7 +86,8 @@ public class DayView extends StackLayout {
         return indicatorSize;
     }
 
-    public void set_indicatorSize(Integer indicatorSize) { this.indicatorSize = indicatorSize;
+    public void set_indicatorSize(Integer indicatorSize) {
+        this.indicatorSize = indicatorSize;
     }
 
     public Integer get_measuredHeight() {
@@ -97,7 +98,7 @@ public class DayView extends StackLayout {
         this.measuredHeight = measuredHeight;
     }
 
-    public void setDay (CalendarDay day) {
+    public void setDay(CalendarDay day) {
         this.day = day;
     }
 
@@ -105,7 +106,7 @@ public class DayView extends StackLayout {
         return indicatorVisible;
     }
 
-    public void setIndicatorVisible (boolean indicatorVisible) {
+    public void setIndicatorVisible(boolean indicatorVisible) {
         this.indicatorVisible = indicatorVisible;
     }
 
@@ -113,13 +114,13 @@ public class DayView extends StackLayout {
         return metrics;
     }
 
-    public void setMetrics (DisplayManager metrics) {
+    public void setMetrics(DisplayManager metrics) {
         this.metrics = metrics;
     }
 
     /**
-     *
-     * @param context
+     * DayView Constructor.
+     * @param context - context.
      */
     public DayView(Context context) {
         super(context);
@@ -127,9 +128,9 @@ public class DayView extends StackLayout {
     }
 
     /**
-     *
-     * @param context
-     * @param day
+     * DayView Constructor.
+     * @param context - context.
+     * @param day - day.
      */
     public DayView(Context context, CalendarDay day) {
         super(context);
@@ -140,22 +141,22 @@ public class DayView extends StackLayout {
     }
 
     /**
-     *
-     * @param context
-     * @param attrs
+     * DayView Constructor.
+     * @param context - Context.
+     * @param attrs - attrs.
      */
     public DayView(Context context, AttrSet attrs) {
         super(context, attrs);
     }
 
     /**
-     *
-     * @param context
-     * @param attrs
-     * @param defStyleAttr
+     * DayView Constructor.
+     * @param context - context.
+     * @param attrs - attrs.
+     * @param defStyleAttr - StyleAttrs.
      */
     public DayView(Context context, AttrSet attrs, int defStyleAttr) {
-          super(context, attrs, String.valueOf(defStyleAttr));
+        super(context, attrs, String.valueOf(defStyleAttr));
     }
 
     private Element generateCircleCanvas(Color color) {
@@ -181,7 +182,8 @@ public class DayView extends StackLayout {
         this.tvDay.setLayoutConfig(layoutConfig);
 
         this.indicator = new Component(getContext());
-        StackLayout.LayoutConfig indicatorconfig = new StackLayout.LayoutConfig(getDefaultIndicatorSize(), getDefaultIndicatorSize());
+        int size=getDefaultIndicatorSize();
+        StackLayout.LayoutConfig indicatorconfig = new StackLayout.LayoutConfig(size, size);
         indicatorconfig.alignment = LayoutAlignment.BOTTOM + LayoutAlignment.HORIZONTAL_CENTER;
         indicatorconfig.setMargins(0, 0, 0, getDefaultIndicatorMarginBottom());
         this.indicator.setLayoutConfig(indicatorconfig);
@@ -204,8 +206,9 @@ public class DayView extends StackLayout {
     }
 
     /**
-     * setSelected
-     * @param selected
+     * setSelected.
+     *
+     * @param selected - boolean.
      */
     @SuppressWarnings("deprecation")
     public void setSelected(boolean selected) {
@@ -231,8 +234,9 @@ public class DayView extends StackLayout {
     }
 
     /**
-     * setIndicatorVisibility
-     * @param visible
+     * setIndicatorVisibility.
+     *
+     * @param visible - boolean.
      */
     @SuppressWarnings("deprecation")
     public void setIndicatorVisibility(boolean visible) {
