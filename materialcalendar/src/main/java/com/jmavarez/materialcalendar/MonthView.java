@@ -132,8 +132,8 @@ public class MonthView extends ComponentContainer implements Component.EstimateS
             Text text = new Text(getContext());
 
             text.setText(new CalendarUtils.Day(actual).getShortName());
-            
-            Font fontbold =Font.DEFAULT_BOLD;
+
+            Font fontbold = Font.DEFAULT_BOLD;
             StackLayout.LayoutConfig config=new StackLayout.LayoutConfig();
             config.alignment= LayoutAlignment.CENTER;
             text.setTextAlignment(TextAlignment.CENTER);

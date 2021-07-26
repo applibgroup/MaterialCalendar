@@ -264,9 +264,8 @@ public class CalendarView extends WrapContentViewPager
     /**
      * ScrollToMonth.
      *
-     * @param day- day.
+     * @param day - day.
      */
-    // Needs work
     public void scrollToMonth(CalendarDay day) {
         for (int i = 0; i < this.adapter.getmComponents().size(); i++) {
             MonthView monthView = this.adapter.getmComponents().valueAt(i);

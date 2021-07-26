@@ -120,6 +120,7 @@ public class DayView extends StackLayout {
 
     /**
      * DayView Constructor.
+     *
      * @param context - context.
      */
     public DayView(Context context) {
@@ -129,6 +130,7 @@ public class DayView extends StackLayout {
 
     /**
      * DayView Constructor.
+     *
      * @param context - context.
      * @param day - day.
      */
@@ -142,6 +144,7 @@ public class DayView extends StackLayout {
 
     /**
      * DayView Constructor.
+     *
      * @param context - Context.
      * @param attrs - attrs.
      */
@@ -151,6 +154,7 @@ public class DayView extends StackLayout {
 
     /**
      * DayView Constructor.
+     *
      * @param context - context.
      * @param attrs - attrs.
      * @param defStyleAttr - StyleAttrs.
@@ -182,7 +186,7 @@ public class DayView extends StackLayout {
         this.tvDay.setLayoutConfig(layoutConfig);
 
         this.indicator = new Component(getContext());
-        int size=getDefaultIndicatorSize();
+        int size = getDefaultIndicatorSize();
         StackLayout.LayoutConfig indicatorconfig = new StackLayout.LayoutConfig(size, size);
         indicatorconfig.alignment = LayoutAlignment.BOTTOM + LayoutAlignment.HORIZONTAL_CENTER;
         indicatorconfig.setMargins(0, 0, 0, getDefaultIndicatorMarginBottom());
