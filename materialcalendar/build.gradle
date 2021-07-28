@@ -1,12 +1,5 @@
 //apply plugin: 'java-library'
 apply plugin: 'com.huawei.ohos.library'
-apply from: '../upload.gradle'
-
-rootProject.ext {
-    DEFAULT_GROUP_ID = 'dev.applibgroup'
-    DEFAULT_ARTIFACT_ID = 'materialcalendar'
-    DEFAULT_VERSION = '1.0.0'
-}
 
 ohos {
     compileSdkVersion 5
