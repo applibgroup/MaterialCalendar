@@ -22,7 +22,7 @@ This library has been inspired by [jMavarez\\MaterialCalendar](https://github.co
 ```
 3. For using MaterialCalendar module from a remote repository in separate application, add the below dependencies in entry/build.gradle file.
 ```
-implementation 'dev.applibgroup:materialcalendar:1.0.1'
+implementation 'dev.applibgroup:materialcalendar:1.0.0'
 ```
 
 ## Usage
